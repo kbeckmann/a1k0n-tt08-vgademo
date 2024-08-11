@@ -5,6 +5,7 @@ module vgademo (
     input rst_n,
     output reg vsync,  // vsync
     output reg hsync,  // hsync
+    output wire display_active,  // display_active
     output reg [1:0] b_out, // Blue
     output reg [1:0] g_out, // Green
     output reg [1:0] r_out, // Red
@@ -45,7 +46,7 @@ reg [10:0] frame;
 reg [10:0] h_count;
 reg [9:0] v_count;
 
-wire display_active = (h_count < H_DISPLAY) && (v_count < V_DISPLAY);
+assign display_active = (h_count < H_DISPLAY) && (v_count < V_DISPLAY);
 
 reg signed [15:0] a_cos;
 reg signed [15:0] a_sin;

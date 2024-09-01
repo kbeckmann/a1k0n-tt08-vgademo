@@ -39,7 +39,7 @@ wire signed [15:0] tri_output = ((tri_osc_p ^ {16{tri_osc_p[15]}}) - 16384) >>> 
 
 // clock divisor
 // 1024 clocks per sample
-reg [9:0] sample_div;
+reg [8:0] sample_div;
 // 256 samples per tick
 reg [7:0] tick_div;
 // ~20 ticks per beat (actually varies due to swing, either 15 or 25)
@@ -48,7 +48,7 @@ reg [4:0] beat_div;
 reg [7:0] songpos;
 assign songpos_out = songpos;
 
-wire [10:0] sample_div_ = sample_div + 1;
+wire [9:0] sample_div_ = sample_div + 1;
 wire [8:0] tick_div_ = tick_div + 1;
 
 // swing the beat
@@ -169,16 +169,16 @@ always @(posedge clk48 or negedge rst_n) begin
     kick_frames <= 3'b0;
     tri_osc_i <= 9'b0;
 
-    sample_div <= 10'b0;
+    sample_div <= 9'b0;
     tick_div <= 8'b0;
     beat_div <= 5'b0;
     songpos <= 8'hFF;
 
   end else begin
-    if (sample_div_[10] == 1) begin  // on carry-out, increment tick_div
+    if (sample_div_[9] == 1) begin  // on carry-out, increment tick_div
       gen_sample;
     end
-    sample_div <= sample_div_[9:0];
+    sample_div <= sample_div_[8:0];
     sigma_delta_accum <= sigma_delta_accum_[15:0];
     out <= sigma_delta_accum_[16];
   end

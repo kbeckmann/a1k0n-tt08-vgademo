@@ -27,6 +27,19 @@ audiotrack soundtrack(
     .out(audio_out)
 );
 
+
+// `define AUDIO_ONLY
+`ifdef AUDIO_ONLY
+
+assign vsync = 1'b0;
+assign hsync = 1'b0;
+assign display_active = 1'b0;
+assign r_out = 2'b00;
+assign g_out = 2'b00;
+assign b_out = 2'b00;
+
+`else
+
 // VGA timing parameters for 640x480 @ 60Hz
 parameter H_DISPLAY = 1220;
 parameter H_FRONT_PORCH = 31;
@@ -297,5 +310,6 @@ always @(posedge clk48) begin
     g_out <= display_active ? gdither : 0; // Green
     b_out <= display_active ? bdither : 0; // Blue
 end
+`endif
 
 endmodule
